@@ -12,7 +12,7 @@ import java.util.Set;
 public class List extends MainModel{
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -23,11 +23,10 @@ public class List extends MainModel{
 
     private Byte status=1;
 
-
     @OneToMany(mappedBy = "list",
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("list")
+    @JsonIgnoreProperties({"list","members","checklists","labels"})
     private java.util.Set<Card> cards=new HashSet<>();
 
 

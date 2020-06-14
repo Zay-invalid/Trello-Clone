@@ -6,17 +6,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "account")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Account extends MainModel {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Id
     private String username;
@@ -33,26 +28,7 @@ public class Account extends MainModel {
     @Column(nullable = false)
     private Integer verified = 1;
 
-    
-    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"member","list"})
-    @JoinTable(name = "card_member",
-            joinColumns = {@JoinColumn (name = "account_username",
-                                        nullable = false)},
-            inverseJoinColumns = {@JoinColumn (name = "card_id",
-                                        nullable = false)})
-    private Set<Card> cards = new HashSet<Card>();
-
-
     public Account(){}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -94,12 +70,12 @@ public class Account extends MainModel {
         this.verified = verified;
     }
 
-    public Set<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(Set<Card> cards) {
-        this.cards = cards;
-    }
+//    public Set<Card> getCards() {
+//        return cards;
+//    }
+//
+//    public void setCards(Set<Card> cards) {
+//        this.cards = cards;
+//    }
 
 }

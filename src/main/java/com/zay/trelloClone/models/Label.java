@@ -26,7 +26,7 @@ public class Label {
     private Integer status = 1;
 
     @ManyToMany(mappedBy = "labels")
-    @JsonIgnoreProperties("labels")
+    @JsonIgnoreProperties({"labels","members","checklists","list"})
     private Set<Card> cards = new HashSet<>();
 
     public Label() {

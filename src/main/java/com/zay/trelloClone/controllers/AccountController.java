@@ -1,6 +1,5 @@
 package com.zay.trelloClone.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zay.trelloClone.exception.ResourceNotFoundException;
 import com.zay.trelloClone.models.Account;
 import com.zay.trelloClone.repositories.AccountRepository;
@@ -48,8 +47,7 @@ public class AccountController {
     public Account update(@PathVariable String username, @RequestBody Account account) throws Exception{
         Account oldAccount = accountRepository.findById(username)
                 .orElseThrow(()->new ResourceNotFoundException("Account not found on ::" + username));
-        BeanUtils.copyProperties(account, oldAccount, "id","verified" );
+        BeanUtils.copyProperties(account, oldAccount, "verified" );
         return accountRepository.saveAndFlush(oldAccount);
     }
-
 }

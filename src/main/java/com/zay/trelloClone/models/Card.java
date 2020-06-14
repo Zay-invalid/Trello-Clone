@@ -37,13 +37,15 @@ public class Card extends MainModel{
     @JoinTable(name = "card_label",
                 joinColumns ={@JoinColumn (name = "card_id")},
                 inverseJoinColumns ={@JoinColumn (name = "label_id")})
-    private Set<Label> labels = new HashSet<>();
+    private Set<Label> labels;
 
-
-    @ManyToMany(mappedBy = "cards")
-    @JsonIgnoreProperties("cards")
-    private Set<Account> member = new HashSet<Account>();
-
+    @ManyToMany
+    @JoinTable(
+            name = "card_member",
+            joinColumns = @JoinColumn(name = "card_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_username")
+    )
+    private Set<Account> members;
 
     @OneToMany(mappedBy = "card",
                 fetch = FetchType.LAZY,
@@ -120,12 +122,12 @@ public class Card extends MainModel{
         this.status = status;
     }
 
-    public Set<Account> getMember() {
-        return member;
+    public Set<Account> getMembers() {
+        return members;
     }
 
-    public void setMember(Set<Account> member) {
-        this.member = member;
+    public void setMembers(Set<Account> members) {
+        this.members = members;
     }
 
     public List getList() {

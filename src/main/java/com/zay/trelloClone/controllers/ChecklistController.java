@@ -36,7 +36,7 @@ public class ChecklistController {
         return checklistRepository.saveAndFlush(checklist);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteChecklist(@PathVariable(value = "id") Integer id) throws Exception {
         Checklist checklist = checklistRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Checklist not found on :: "+id));
@@ -50,7 +50,20 @@ public class ChecklistController {
     public Checklist update(@PathVariable Integer id, @RequestBody Checklist checklist) throws Exception {
         Checklist oldChecklist= checklistRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Checklist not found on:: "+ id));
-        BeanUtils.copyProperties(checklist, oldChecklist, "status" );
+        BeanUtils.copyProperties(checklist, oldChecklist, "id","checked","position" );
         return checklistRepository.saveAndFlush(oldChecklist);
+    }
+
+    @PostMapping("/cardId/{cardId}")
+    public List <Checklist> saveAllToCard (@PathVariable Integer cardId,@RequestBody List <Checklist> allChkList) {
+        for (Checklist oneChkList:allChkList) {
+            oneChkList.setCard_id(cardId);
+        }
+        return checklistRepository.saveAll(allChkList);
+    }
+
+    @GetMapping("/cardId/{cardId}")
+    public List<Checklist> getByCardId(@PathVariable Integer cardId) {
+        return checklistRepository.findByCardId(cardId);
     }
 }

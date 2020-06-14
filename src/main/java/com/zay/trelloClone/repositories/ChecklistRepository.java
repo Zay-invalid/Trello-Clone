@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ChecklistRepository extends JpaRepository<Checklist, Integer> {
     public List<Checklist> findByCardId(Integer cardId);
-    public Integer deleteByCardId(Integer cardId);
 }

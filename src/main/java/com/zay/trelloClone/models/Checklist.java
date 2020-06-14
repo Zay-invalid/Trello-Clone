@@ -26,8 +26,12 @@ public class Checklist extends MainModel {
     private Integer position;
 
 
+    @Column(nullable = false)
+    private Short checked=0;
+
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnoreProperties("checklists")
+    @JsonIgnoreProperties({"checklists","list","labels","members"})
     @JoinColumn(name = "card_id",
             insertable = false,
             updatable = false,
@@ -83,5 +87,13 @@ public class Checklist extends MainModel {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Short getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Short checked) {
+        this.checked = checked;
     }
 }
